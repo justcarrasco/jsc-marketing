@@ -1,5 +1,5 @@
 // Password Protection
-const PASSWORD = 'jason2024'; // Change this to your desired password
+const PASSWORD = 'jason2025'; // Change this to your desired password
 const passwordOverlay = document.getElementById('password-overlay');
 const mainContent = document.getElementById('main-content');
 const passwordInput = document.getElementById('password-input');
