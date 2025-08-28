@@ -1,9 +1,59 @@
-// Smooth scrolling for navigation links
+// Password Protection
+const PASSWORD = 'jason2024'; // Change this to your desired password
+const passwordOverlay = document.getElementById('password-overlay');
+const mainContent = document.getElementById('main-content');
+const passwordInput = document.getElementById('password-input');
+const passwordSubmit = document.getElementById('password-submit');
+const passwordError = document.getElementById('password-error');
+
+// Check if user is already authenticated
+function checkAuth() {
+    const isAuthenticated = localStorage.getItem('portfolio_authenticated');
+    if (isAuthenticated === 'true') {
+        showContent();
+    }
+}
+
+// Show main content
+function showContent() {
+    passwordOverlay.style.display = 'none';
+    mainContent.style.display = 'block';
+    setTimeout(() => {
+        mainContent.classList.add('show');
+    }, 100);
+}
+
+// Handle password submission
+function handlePasswordSubmit() {
+    const enteredPassword = passwordInput.value.trim();
+    
+    if (enteredPassword === PASSWORD) {
+        localStorage.setItem('portfolio_authenticated', 'true');
+        showContent();
+        passwordError.textContent = '';
+    } else {
+        passwordError.textContent = 'Incorrect password. Please try again.';
+        passwordInput.value = '';
+        passwordInput.focus();
+    }
+}
+
+// Event listeners for password protection
+passwordSubmit.addEventListener('click', handlePasswordSubmit);
+passwordInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        handlePasswordSubmit();
+    }
+});
+
+// Check authentication on page load
+checkAuth();
+
+// Main content functionality (only runs after authentication)
 document.addEventListener('DOMContentLoaded', function() {
-    // Get all navigation links
+    // Smooth scrolling for navigation links
     const navLinks = document.querySelectorAll('a[href^="#"]');
     
-    // Add smooth scrolling to all navigation links
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
@@ -12,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetSection = document.querySelector(targetId);
             
             if (targetSection) {
-                const offsetTop = targetSection.offsetTop - 80; // Account for fixed navbar
+                const offsetTop = targetSection.offsetTop - 80;
                 
                 window.scrollTo({
                     top: offsetTop,
@@ -70,23 +120,4 @@ document.addEventListener('DOMContentLoaded', function() {
             this.style.transform = 'translateY(0)';
         });
     });
-    
-    // Add typing effect for hero title (optional enhancement)
-    const heroTitle = document.querySelector('.hero-title');
-    if (heroTitle) {
-        const text = heroTitle.textContent;
-        heroTitle.textContent = '';
-        
-        let i = 0;
-        const typeWriter = () => {
-            if (i < text.length) {
-                heroTitle.textContent += text.charAt(i);
-                i++;
-                setTimeout(typeWriter, 100);
-            }
-        };
-        
-        // Start typing effect after a short delay
-        setTimeout(typeWriter, 500);
-    }
 }); 
