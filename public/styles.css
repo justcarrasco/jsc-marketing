@@ -45,6 +45,32 @@
     margin-bottom: 1rem;
 }
 
+/* Mobile responsive for password protection */
+@media (max-width: 480px) {
+    .password-container {
+        padding: 2rem 1.5rem;
+        max-width: 320px;
+    }
+    
+    .password-content h2 {
+        font-size: 1.5rem;
+    }
+    
+    .password-input-group {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    #password-input {
+        width: 100%;
+    }
+    
+    #password-submit {
+        width: 100%;
+        padding: 14px 24px;
+    }
+}
+
 #password-input {
     flex: 1;
     padding: 12px 16px;
