@@ -1,10 +1,5 @@
 // Password Protection
 const PASSWORD = 'jason2025'; // Change this to your desired password
-const passwordOverlay = document.getElementById('password-overlay');
-const mainContent = document.getElementById('main-content');
-const passwordInput = document.getElementById('password-input');
-const passwordSubmit = document.getElementById('password-submit');
-const passwordError = document.getElementById('password-error');
 
 // Check if user is already authenticated
 function checkAuth() {
@@ -16,41 +11,63 @@ function checkAuth() {
 
 // Show main content
 function showContent() {
-    passwordOverlay.style.display = 'none';
-    mainContent.style.display = 'block';
-    setTimeout(() => {
-        mainContent.classList.add('show');
-    }, 100);
+    const passwordOverlay = document.getElementById('password-overlay');
+    const mainContent = document.getElementById('main-content');
+    
+    if (passwordOverlay && mainContent) {
+        passwordOverlay.style.display = 'none';
+        mainContent.style.display = 'block';
+        setTimeout(() => {
+            mainContent.classList.add('show');
+        }, 100);
+    }
 }
 
 // Handle password submission
 function handlePasswordSubmit() {
+    const passwordInput = document.getElementById('password-input');
+    const passwordError = document.getElementById('password-error');
+    
+    if (!passwordInput) return;
+    
     const enteredPassword = passwordInput.value.trim();
     
     if (enteredPassword === PASSWORD) {
         localStorage.setItem('portfolio_authenticated', 'true');
         showContent();
-        passwordError.textContent = '';
+        if (passwordError) passwordError.textContent = '';
     } else {
-        passwordError.textContent = 'Incorrect password. Please try again.';
+        if (passwordError) passwordError.textContent = 'Incorrect password. Please try again.';
         passwordInput.value = '';
         passwordInput.focus();
     }
 }
 
-// Event listeners for password protection
-passwordSubmit.addEventListener('click', handlePasswordSubmit);
-passwordInput.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        handlePasswordSubmit();
-    }
-});
-
-// Check authentication on page load
-checkAuth();
-
-// Main content functionality (only runs after authentication)
+// Main content functionality
 document.addEventListener('DOMContentLoaded', function() {
+    // Password protection setup
+    const passwordOverlay = document.getElementById('password-overlay');
+    const mainContent = document.getElementById('main-content');
+    const passwordInput = document.getElementById('password-input');
+    const passwordSubmit = document.getElementById('password-submit');
+    const passwordError = document.getElementById('password-error');
+
+    // Event listeners for password protection
+    if (passwordSubmit) {
+        passwordSubmit.addEventListener('click', handlePasswordSubmit);
+    }
+    
+    if (passwordInput) {
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handlePasswordSubmit();
+            }
+        });
+    }
+
+    // Check authentication on page load
+    checkAuth();
+
     // Smooth scrolling for navigation links
     const navLinks = document.querySelectorAll('a[href^="#"]');
     
